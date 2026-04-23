@@ -73,4 +73,4 @@ public static final String BANK_SLOGAN = "Banking for Everyone";
 
 17 customers from 15 countries including USA, Spain, Japan, Saudi Arabia,
 Ghana, Germany, India, Brazil, Russia, China, Morocco, Sweden, Nigeria,
-Greece, and Israel (including one Russian-born Israeli customer).
+Greece, and Israel.
