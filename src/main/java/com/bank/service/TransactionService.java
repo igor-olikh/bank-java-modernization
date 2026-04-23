@@ -81,6 +81,13 @@ public class TransactionService {
         return transactionRepository.findByAccountId(accountId);
     }
 
+    public List<Transaction> getRecentTransactions(int limit) {
+        return transactionRepository.findAll().stream()
+                .sorted(java.util.Comparator.comparing(Transaction::getTimestamp).reversed())
+                .limit(limit)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
     public Transaction reverseTransaction(String transactionId) {
         Transaction original = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new IllegalArgumentException("Transaction not found: " + transactionId));

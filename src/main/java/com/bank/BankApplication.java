@@ -3,11 +3,13 @@ package com.bank;
 import com.bank.data.DataSeeder;
 import com.bank.repository.*;
 import com.bank.service.*;
-import com.bank.ui.ConsoleUI;
+import com.bank.ui.MainWindow;
+
+import javax.swing.*;
 
 /**
  * Banking System — Java 8 Implementation
- * Entry point: wires all layers and launches the console UI.
+ * Entry point: wires all layers, seeds data, and launches the Swing UI.
  */
 public class BankApplication {
 
@@ -29,17 +31,33 @@ public class BankApplication {
         BranchService      branchService      = new BranchService(branchRepo);
 
         // Seed initial data
-        System.out.println("  Loading banking system data...");
-        DataSeeder seeder = new DataSeeder(
-                customerService, accountService, transactionService,
-                cardService, loanService, branchService);
-        seeder.seed();
-        System.out.println("  Data loaded: " + customerService.getTotalCustomers() + " customers ready.\n");
+        System.out.println("Loading banking system data...");
+        new DataSeeder(customerService, accountService, transactionService,
+                cardService, loanService, branchService).seed();
+        System.out.println("Data seeded: " + customerService.getTotalCustomers() + " customers.");
 
-        // Launch UI
-        ConsoleUI ui = new ConsoleUI(
-                customerService, accountService, transactionService,
-                cardService, loanService, branchService);
-        ui.start();
+        // Use Nimbus Look & Feel for a modern appearance
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ignored) { /* fallback to system default */ }
+
+        // Launch Swing UI on the Event Dispatch Thread
+        final CustomerService    cs  = customerService;
+        final AccountService     as  = accountService;
+        final TransactionService ts  = transactionService;
+        final CardService        cds = cardService;
+        final LoanService        ls  = loanService;
+        final BranchService      bs  = branchService;
+
+        SwingUtilities.invokeLater(() -> {
+            MainWindow window = new MainWindow(cs, as, ts, cds, ls, bs);
+            window.setVisible(true);
+        });
     }
 }
+

@@ -251,44 +251,71 @@ All service methods must validate inputs and throw meaningful exceptions. The fo
 
 ## User Interface
 
-### Style
-Simple, text-based **console UI** (or optional Swing window). The interface must feel like a banking application — not a generic Java terminal tool.
+### Technology
+
+**Java Swing** — built into Java 8, no external UI dependencies required.
+The interface must feel like a professional banking desktop application, not a generic Java tool.
 
 ### White-Label Placeholders
-All branding elements must be defined as constants in a single `BankConfig.java` file, making it easy to swap values later:
+
+All branding elements are defined as constants in `BankConfig.java`, making it trivial to swap values for any bank:
 
 ```java
-// BankConfig.java — White-label configuration
 public class BankConfig {
-    public static final String BANK_NAME        = "{{BANK_NAME}}";
-    public static final String BANK_SLOGAN      = "{{BANK_SLOGAN}}";
-    public static final String BANK_LOGO_PATH   = "{{LOGO_PATH}}";
+    public static final String BANK_NAME          = "{{BANK_NAME}}";
+    public static final String BANK_SLOGAN        = "{{BANK_SLOGAN}}";
+    public static final String BANK_LOGO_PATH     = "{{LOGO_PATH}}";
     public static final String BANK_PRIMARY_COLOR = "{{PRIMARY_COLOR}}";
-    public static final String SUPPORT_EMAIL    = "{{SUPPORT_EMAIL}}";
-    public static final String SUPPORT_PHONE    = "{{SUPPORT_PHONE}}";
-    public static final String SWIFT_CODE       = "{{SWIFT_CODE}}";
-    public static final String BANK_COUNTRY     = "{{BANK_COUNTRY}}";
+    public static final String SUPPORT_EMAIL      = "{{SUPPORT_EMAIL}}";
+    public static final String SUPPORT_PHONE      = "{{SUPPORT_PHONE}}";
+    public static final String SWIFT_CODE         = "{{SWIFT_CODE}}";
+    public static final String BANK_COUNTRY       = "{{BANK_COUNTRY}}";
 }
 ```
 
-### Main Menu Structure
+### Application Layout
 
 ```
-========================================
-  Welcome to {{BANK_NAME}}
-  {{BANK_SLOGAN}}
-========================================
-
-  [1] Customer Management
-  [2] Account Management
-  [3] Transactions
-  [4] Cards
-  [5] Loans
-  [6] Branch Information
-  [0] Exit
-
-========================================
++----------------------------------------------------------+
+|  {{BANK_NAME}}   {{BANK_SLOGAN}}              v1.0.0    |  ← Header (dark navy)
++----------------+-----------------------------------------+
+|                |                                         |
+|  Dashboard     |                                         |
+|  Customers     |        Content Panel                    |
+|  Accounts      |        (switches per navigation)        |
+|  Transactions  |                                         |
+|  Cards         |                                         |
+|  Loans         |                                         |
+|  Branches      |                                         |
+|                |                                         |
++----------------+-----------------------------------------+
+|  Status bar                                              |
++----------------------------------------------------------+
 ```
+
+### Panels
+
+| Panel | Contents |
+|---|---|
+| **Dashboard** | Summary stats (customers, accounts, total balance), recent transactions table |
+| **Customers** | Searchable JTable, Add / View / Block / Activate actions |
+| **Accounts** | Customer selector + account table, Open / Freeze / Close actions |
+| **Transactions** | Account selector + history table, Deposit / Withdraw / Transfer dialogs |
+| **Cards** | Customer selector + card table, Issue / Block / Activate / Cancel actions |
+| **Loans** | Customer selector + loan table, Apply / Repay dialogs |
+| **Branches** | Branch information table |
+
+### UI Color Scheme (White-Label Base)
+
+| Element | Color |
+|---|---|
+| Header / Sidebar | `#0F172A` / `#1E293B` (dark navy) |
+| Active nav item | `#3B82F6` (blue) |
+| Content background | `#F8FAFC` (light) |
+| Accent / Buttons | `#3B82F6` (blue) |
+| Success indicators | `#22C55E` (green) |
+| Danger / Error | `#EF4444` (red) |
+| Table headers | `#334155` |
 
 ---
 
