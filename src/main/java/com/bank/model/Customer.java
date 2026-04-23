@@ -23,7 +23,7 @@ public class Customer {
     private String nationality;
     private CustomerType customerType;
     private CustomerStatus status;
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     public Customer(String firstName, String lastName, LocalDate dateOfBirth,
                     String email, String phone, Address address,
@@ -63,6 +63,7 @@ public class Customer {
     public void setNationality(String nationality) { this.nationality = nationality; }
     public void setCustomerType(CustomerType t)  { this.customerType = t; }
     public void setStatus(CustomerStatus status) { this.status = status; }
+    public void setCreatedAt(LocalDateTime dt)   { this.createdAt = dt; }
 
     @Override
     public String toString() {

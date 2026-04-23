@@ -9,6 +9,8 @@ import com.bank.service.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Random;
 
 /**
  * Seeds the system with 18 pre-defined customers, their accounts,
@@ -63,12 +65,14 @@ public class DataSeeder {
     // -------------------------------------------------------------------------
     // Customers
     // -------------------------------------------------------------------------
+    private static final Random RNG = new Random(42); // fixed seed → reproducible randomness
+
     private void seedCustomers() {
         // 1. James Anderson — USA
         Customer james = reg("James", "Anderson", "1985-03-14",
                 "james.anderson@email.com", "+1-555-0101",
                 new Address("742 Evergreen Terrace", "Springfield", "IL", "62701", "United States"),
-                "American", CustomerType.INDIVIDUAL);
+                "American", CustomerType.INDIVIDUAL); james.setCreatedAt(randDate());
         Account jamesCheck = openAcc(james, AccountType.CHECKING, "USD", "15432.50");
         Account jamesSave  = openAcc(james, AccountType.SAVINGS,  "USD", "48200.00");
         seedTx(jamesCheck, "25000.00", "3000.00", "1850.00", "420.00", "180.00");
@@ -80,7 +84,7 @@ public class DataSeeder {
         Customer maria = reg("María", "González", "1990-07-22",
                 "maria.gonzalez@email.es", "+34-91-555-0102",
                 new Address("Calle Gran Vía 45, 3°", "Madrid", "", "28013", "Spain"),
-                "Spanish", CustomerType.INDIVIDUAL);
+                "Spanish", CustomerType.INDIVIDUAL); maria.setCreatedAt(randDate());
         Account mariaCheck = openAcc(maria, AccountType.CHECKING, "EUR", "8750.00");
         seedTx(mariaCheck, "9000.00", "1200.00", "500.00", "350.00", "200.00");
         cardService.issueCard(mariaCheck.getAccountId(), maria.getCustomerId(), CardType.DEBIT, CardNetwork.VISA);
@@ -89,7 +93,7 @@ public class DataSeeder {
         Customer yuki = reg("Yuki", "Tanaka", "1988-11-05",
                 "yuki.tanaka@email.jp", "+81-3-5555-0103",
                 new Address("2-1 Shinjuku", "Tokyo", "", "160-0022", "Japan"),
-                "Japanese", CustomerType.INDIVIDUAL);
+                "Japanese", CustomerType.INDIVIDUAL); yuki.setCreatedAt(randDate());
         Account yukiSave   = openAcc(yuki, AccountType.SAVINGS,     "JPY", "1250000.00");
         Account yukiInvest = openAcc(yuki, AccountType.INVESTMENT,  "JPY", "3800000.00");
         seedTx(yukiSave, "1500000.00", "300000.00", "50000.00", "0.00", "0.00");
@@ -99,7 +103,7 @@ public class DataSeeder {
         Customer mohammed = reg("Mohammed", "Al-Rashid", "1978-01-30",
                 "m.alrashid@business.sa", "+966-50-555-0104",
                 new Address("Olaya District, Building 7", "Riyadh", "", "11433", "Saudi Arabia"),
-                "Saudi Arabian", CustomerType.CORPORATE);
+                "Saudi Arabian", CustomerType.CORPORATE); mohammed.setCreatedAt(randDate());
         Account mohammedBiz = openAcc(mohammed, AccountType.BUSINESS, "SAR", "320000.00");
         seedTx(mohammedBiz, "400000.00", "80000.00", "15000.00", "5000.00", "2000.00");
         cardService.issueCard(mohammedBiz.getAccountId(), mohammed.getCustomerId(), CardType.CREDIT, CardNetwork.AMEX);
@@ -108,7 +112,7 @@ public class DataSeeder {
         Customer amara = reg("Amara", "Osei", "1995-06-18",
                 "amara.osei@email.gh", "+233-20-555-0105",
                 new Address("15 Liberation Road", "Accra", "", "00233", "Ghana"),
-                "Ghanaian", CustomerType.INDIVIDUAL);
+                "Ghanaian", CustomerType.INDIVIDUAL); amara.setCreatedAt(randDate());
         Account amaraCheck = openAcc(amara, AccountType.CHECKING, "GHS", "4800.00");
         seedTx(amaraCheck, "5000.00", "600.00", "200.00", "150.00", "100.00");
         cardService.issueCard(amaraCheck.getAccountId(), amara.getCustomerId(), CardType.DEBIT, CardNetwork.MASTERCARD);
@@ -117,7 +121,7 @@ public class DataSeeder {
         Customer lena = reg("Lena", "Müller", "1992-09-09",
                 "lena.mueller@email.de", "+49-30-555-0106",
                 new Address("Unter den Linden 10", "Berlin", "", "10117", "Germany"),
-                "German", CustomerType.INDIVIDUAL);
+                "German", CustomerType.INDIVIDUAL); lena.setCreatedAt(randDate());
         Account lenaSave = openAcc(lena, AccountType.SAVINGS, "EUR", "22500.00");
         seedTx(lenaSave, "25000.00", "3000.00", "1000.00", "500.00", "0.00");
         cardService.issueCard(lenaSave.getAccountId(), lena.getCustomerId(), CardType.DEBIT, CardNetwork.MASTERCARD);
@@ -126,7 +130,7 @@ public class DataSeeder {
         Customer priya = reg("Priya", "Sharma", "1991-04-25",
                 "priya.sharma@email.in", "+91-98-555-0107",
                 new Address("Sector 14, Gurgaon", "Haryana", "", "122001", "India"),
-                "Indian", CustomerType.INDIVIDUAL);
+                "Indian", CustomerType.INDIVIDUAL); priya.setCreatedAt(randDate());
         Account priyaCheck = openAcc(priya, AccountType.CHECKING, "INR", "185000.00");
         seedTx(priyaCheck, "200000.00", "20000.00", "5000.00", "8000.00", "3000.00");
         cardService.issueCard(priyaCheck.getAccountId(), priya.getCustomerId(), CardType.DEBIT, CardNetwork.VISA);
@@ -137,7 +141,7 @@ public class DataSeeder {
         Customer lucas = reg("Lucas", "Oliveira", "1987-12-03",
                 "lucas.oliveira@email.br", "+55-11-555-0108",
                 new Address("Av. Paulista 1000", "São Paulo", "SP", "01310-100", "Brazil"),
-                "Brazilian", CustomerType.INDIVIDUAL);
+                "Brazilian", CustomerType.INDIVIDUAL); lucas.setCreatedAt(randDate());
         Account lucasCheck = openAcc(lucas, AccountType.CHECKING, "BRL", "9200.00");
         Account lucasSave  = openAcc(lucas, AccountType.SAVINGS,  "BRL", "31500.00");
         seedTx(lucasCheck, "10000.00", "1500.00", "800.00", "600.00", "200.00");
@@ -147,7 +151,7 @@ public class DataSeeder {
         Customer irina = reg("Irina", "Petrov", "1983-08-17",
                 "irina.petrov@email.ru", "+7-495-555-0109",
                 new Address("Tverskaya Street 15", "Moscow", "", "125009", "Russia"),
-                "Russian", CustomerType.INDIVIDUAL);
+                "Russian", CustomerType.INDIVIDUAL); irina.setCreatedAt(randDate());
         Account irinaSave = openAcc(irina, AccountType.SAVINGS, "RUB", "980000.00");
         seedTx(irinaSave, "1000000.00", "50000.00", "30000.00", "20000.00", "0.00");
         cardService.issueCard(irinaSave.getAccountId(), irina.getCustomerId(), CardType.DEBIT, CardNetwork.MASTERCARD);
@@ -156,7 +160,7 @@ public class DataSeeder {
         Customer chen = reg("Chen", "Wei", "1980-02-14",
                 "chen.wei@business.cn", "+86-10-555-0110",
                 new Address("No. 1 Financial Street", "Beijing", "", "100033", "China"),
-                "Chinese", CustomerType.CORPORATE);
+                "Chinese", CustomerType.CORPORATE); chen.setCreatedAt(randDate());
         Account chenInvest = openAcc(chen, AccountType.INVESTMENT, "CNY", "850000.00");
         Account chenBiz    = openAcc(chen, AccountType.BUSINESS,   "CNY", "1200000.00");
         seedTx(chenBiz, "1500000.00", "200000.00", "80000.00", "50000.00", "20000.00");
@@ -166,7 +170,7 @@ public class DataSeeder {
         Customer fatima = reg("Fatima", "Benali", "1994-05-28",
                 "fatima.benali@email.ma", "+212-6-555-0111",
                 new Address("Boulevard Mohammed V 22", "Casablanca", "", "20000", "Morocco"),
-                "Moroccan", CustomerType.INDIVIDUAL);
+                "Moroccan", CustomerType.INDIVIDUAL); fatima.setCreatedAt(randDate());
         Account fatimaCheck = openAcc(fatima, AccountType.CHECKING, "MAD", "12400.00");
         seedTx(fatimaCheck, "15000.00", "1800.00", "600.00", "400.00", "200.00");
         cardService.issueCard(fatimaCheck.getAccountId(), fatima.getCustomerId(), CardType.DEBIT, CardNetwork.VISA);
@@ -175,7 +179,7 @@ public class DataSeeder {
         Customer erik = reg("Erik", "Lindström", "1979-10-11",
                 "erik.lindstrom@email.se", "+46-8-555-0112",
                 new Address("Storgatan 12", "Stockholm", "", "11152", "Sweden"),
-                "Swedish", CustomerType.INDIVIDUAL);
+                "Swedish", CustomerType.INDIVIDUAL); erik.setCreatedAt(randDate());
         Account erikCheck = openAcc(erik, AccountType.CHECKING, "SEK", "85000.00");
         seedTx(erikCheck, "90000.00", "12000.00", "3000.00", "2000.00", "500.00");
         cardService.issueCard(erikCheck.getAccountId(), erik.getCustomerId(), CardType.DEBIT, CardNetwork.VISA);
@@ -186,7 +190,7 @@ public class DataSeeder {
         Customer aiko = reg("Aiko", "Nakamura", "1997-03-07",
                 "aiko.nakamura@email.jp", "+81-6-5555-0113",
                 new Address("1-1 Namba", "Osaka", "", "542-0076", "Japan"),
-                "Japanese", CustomerType.INDIVIDUAL);
+                "Japanese", CustomerType.INDIVIDUAL); aiko.setCreatedAt(randDate());
         Account aikoSave = openAcc(aiko, AccountType.SAVINGS, "JPY", "680000.00");
         seedTx(aikoSave, "700000.00", "50000.00", "20000.00", "0.00", "0.00");
         cardService.issueCard(aikoSave.getAccountId(), aiko.getCustomerId(), CardType.DEBIT, CardNetwork.MASTERCARD);
@@ -195,7 +199,7 @@ public class DataSeeder {
         Customer samuel = reg("Samuel", "Okonkwo", "1982-11-23",
                 "samuel.okonkwo@business.ng", "+234-80-555-0114",
                 new Address("5 Victoria Island", "Lagos", "", "101241", "Nigeria"),
-                "Nigerian", CustomerType.CORPORATE);
+                "Nigerian", CustomerType.CORPORATE); samuel.setCreatedAt(randDate());
         Account samuelBiz   = openAcc(samuel, AccountType.BUSINESS,  "NGN", "5800000.00");
         Account samuelCheck = openAcc(samuel, AccountType.CHECKING,  "NGN", "1200000.00");
         seedTx(samuelBiz, "7000000.00", "800000.00", "250000.00", "100000.00", "50000.00");
@@ -205,7 +209,7 @@ public class DataSeeder {
         Customer sofia = reg("Sofia", "Papadopoulos", "1993-06-30",
                 "sofia.papadopoulos@email.gr", "+30-21-555-0115",
                 new Address("Ermou 50", "Athens", "", "10563", "Greece"),
-                "Greek", CustomerType.INDIVIDUAL);
+                "Greek", CustomerType.INDIVIDUAL); sofia.setCreatedAt(randDate());
         Account sofiaCheck = openAcc(sofia, AccountType.CHECKING, "EUR", "6300.00");
         seedTx(sofiaCheck, "7000.00", "1000.00", "400.00", "250.00", "150.00");
         cardService.issueCard(sofiaCheck.getAccountId(), sofia.getCustomerId(), CardType.DEBIT, CardNetwork.MASTERCARD);
@@ -216,7 +220,7 @@ public class DataSeeder {
         Customer noam = reg("Noam", "Cohen", "1989-02-19",
                 "noam.cohen@email.il", "+972-52-555-0116",
                 new Address("Rothschild Boulevard 22", "Tel Aviv", "", "6688210", "Israel"),
-                "Israeli", CustomerType.INDIVIDUAL);
+                "Israeli", CustomerType.INDIVIDUAL); noam.setCreatedAt(randDate());
         Account noamCheck = openAcc(noam, AccountType.CHECKING, "ILS", "42000.00");
         Account noamSave  = openAcc(noam, AccountType.SAVINGS,  "ILS", "115000.00");
         seedTx(noamCheck, "45000.00", "6000.00", "1500.00", "800.00", "400.00");
@@ -227,7 +231,7 @@ public class DataSeeder {
         Customer mikhail = reg("Mikhail", "Levin", "1976-09-04",
                 "mikhail.levin@email.il", "+972-54-555-0117",
                 new Address("HaYarkon Street 180", "Tel Aviv", "", "6343229", "Israel"),
-                "Israeli (born Russia)", CustomerType.INDIVIDUAL);
+                "Israeli (born Russia)", CustomerType.INDIVIDUAL); mikhail.setCreatedAt(randDate());
         Account mikhailCheck = openAcc(mikhail, AccountType.CHECKING, "ILS", "28500.00");
         seedTx(mikhailCheck, "30000.00", "4000.00", "1200.00", "700.00", "300.00");
         cardService.issueCard(mikhailCheck.getAccountId(), mikhail.getCustomerId(), CardType.DEBIT, CardNetwork.VISA);
@@ -238,7 +242,7 @@ public class DataSeeder {
         Customer igor = reg("Igor", "Proverkin", "1975-09-24",
                 "igor.proverkin@bank.com", "+972-54-444-4444",
                 new Address("HaShita 15", "Tel Aviv", "", "7193065", "Israel"),
-                "Israeli", CustomerType.INDIVIDUAL);
+                "Israeli", CustomerType.INDIVIDUAL); igor.setCreatedAt(randDate());
         Account igorCheck = openAcc(igor, AccountType.CHECKING, "ILS", "55000.00");
         Account igorSave  = openAcc(igor, AccountType.SAVINGS,  "ILS", "180000.00");
         seedTx(igorCheck, "35000.00", "4500.00", "1800.00", "1000.00", "350.00");
@@ -286,5 +290,20 @@ public class DataSeeder {
 
     private static BigDecimal bd(String val) {
         return new BigDecimal(val);
+    }
+
+    /**
+     * Returns a random LocalDateTime between 3 and 10 years before today (2026-04-23).
+     * Range: 2016-04-23 .. 2023-04-23  (inclusive on both ends, within the 3-10 year window).
+     */
+    private static LocalDateTime randDate() {
+        // Total days in the window: 3 years = ~1096 days, 10 years = ~3653 days
+        int minDaysAgo = 3 * 365;       // 1095
+        int maxDaysAgo = 10 * 365 + 2;  // 3652 (accounts for leap years)
+        int daysAgo = minDaysAgo + RNG.nextInt(maxDaysAgo - minDaysAgo + 1);
+        return LocalDateTime.now().minusDays(daysAgo)
+                .withHour(8 + RNG.nextInt(10))
+                .withMinute(RNG.nextInt(60))
+                .withSecond(RNG.nextInt(60));
     }
 }

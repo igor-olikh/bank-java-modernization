@@ -15,18 +15,18 @@ import java.awt.event.ActionListener;
  */
 public class MainWindow extends JFrame {
 
-    // ── Theme colours ──────────────────────────────────────────────────────────
-    public static final Color HEADER_BG      = new Color(0x0F172A);
-    public static final Color SIDEBAR_BG     = new Color(0x1E293B);
-    public static final Color SIDEBAR_TEXT   = new Color(0xE2E8F0);
-    public static final Color SIDEBAR_ACTIVE = new Color(0x3B82F6);
-    public static final Color SIDEBAR_HOVER  = new Color(0x334155);
-    public static final Color CONTENT_BG     = new Color(0xF8FAFC);
-    public static final Color ACCENT         = new Color(0x3B82F6);
-    public static final Color SUCCESS        = new Color(0x22C55E);
-    public static final Color DANGER         = new Color(0xEF4444);
-    public static final Color TABLE_HEADER   = new Color(0x334155);
-    public static final Color TABLE_ROW_ALT  = new Color(0xF1F5F9);
+    // ── Theme colours  (Bank Nova Bank-inspired) ───────────────────────────────
+    public static final Color HEADER_BG      = new Color(0x002F6C); // Nova Bank deep navy
+    public static final Color SIDEBAR_BG     = new Color(0xF5F8FC); // light steel-blue tint
+    public static final Color SIDEBAR_TEXT   = new Color(0x1A3A5C); // dark navy text
+    public static final Color SIDEBAR_ACTIVE = new Color(0x002F6C); // same navy for active item
+    public static final Color SIDEBAR_HOVER  = new Color(0xDBE8F5); // soft hover highlight
+    public static final Color CONTENT_BG     = new Color(0xF0F4F8); // very light grey-blue page bg
+    public static final Color ACCENT         = new Color(0x002F6C); // primary action = navy
+    public static final Color SUCCESS        = new Color(0xE8571A); // Nova Bank orange ("success" CTA)
+    public static final Color DANGER         = new Color(0xCC1B1B); // red for destructive actions
+    public static final Color TABLE_HEADER   = new Color(0x002F6C); // navy table header
+    public static final Color TABLE_ROW_ALT  = new Color(0xEBF2FB); // light blue alternating row
     public static final Font  FONT_HEADER    = new Font("SansSerif", Font.BOLD,   22);
     public static final Font  FONT_SLOGAN    = new Font("SansSerif", Font.ITALIC, 12);
     public static final Font  FONT_NAV       = new Font("SansSerif", Font.PLAIN,  14);
@@ -90,7 +90,7 @@ public class MainWindow extends JFrame {
 
         JLabel sloganLabel = new JLabel("  " + BankConfig.BANK_SLOGAN);
         sloganLabel.setFont(FONT_SLOGAN);
-        sloganLabel.setForeground(new Color(0x94A3B8));
+        sloganLabel.setForeground(new Color(0xA8C4E0)); // light muted blue on navy header
 
         JPanel left = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         left.setOpaque(false);
@@ -99,7 +99,7 @@ public class MainWindow extends JFrame {
 
         JLabel version = new JLabel("v" + BankConfig.APP_VERSION + "  ");
         version.setFont(FONT_BODY);
-        version.setForeground(new Color(0x64748B));
+        version.setForeground(new Color(0x8BAED4));
 
         header.add(left,    BorderLayout.CENTER);
         header.add(version, BorderLayout.EAST);
@@ -166,16 +166,16 @@ public class MainWindow extends JFrame {
     // ── Status bar ─────────────────────────────────────────────────────────────
     private JPanel buildStatus() {
         JPanel bar = new JPanel(new BorderLayout());
-        bar.setBackground(new Color(0xE2E8F0));
+        bar.setBackground(new Color(0xDDE8F4)); // Nova Bank light blue status bar
         bar.setBorder(new EmptyBorder(3, 10, 3, 10));
         bar.setPreferredSize(new Dimension(0, 26));
         statusLabel.setFont(FONT_BODY);
-        statusLabel.setForeground(new Color(0x475569));
+        statusLabel.setForeground(new Color(0x1A3A5C));
         bar.add(statusLabel, BorderLayout.WEST);
 
         JLabel support = new JLabel(BankConfig.SUPPORT_EMAIL + "  |  " + BankConfig.SUPPORT_PHONE + "  ");
         support.setFont(FONT_BODY);
-        support.setForeground(new Color(0x64748B));
+        support.setForeground(new Color(0x1A3A5C));
         bar.add(support, BorderLayout.EAST);
         return bar;
     }
@@ -237,7 +237,7 @@ public class MainWindow extends JFrame {
     public static JLabel sectionTitle(String text) {
         JLabel lbl = new JLabel(text);
         lbl.setFont(new Font("SansSerif", Font.BOLD, 18));
-        lbl.setForeground(new Color(0x1E293B));
+        lbl.setForeground(new Color(0x002F6C)); // Nova Bank navy section titles
         lbl.setBorder(new EmptyBorder(16, 20, 8, 20));
         return lbl;
     }
@@ -252,8 +252,8 @@ public class MainWindow extends JFrame {
         table.getTableHeader().setFont(FONT_LABEL);
         table.getTableHeader().setBackground(TABLE_HEADER);
         table.getTableHeader().setForeground(Color.WHITE);
-        table.setSelectionBackground(new Color(0xBFDBFE));
-        table.setSelectionForeground(new Color(0x1E293B));
+        table.setSelectionBackground(new Color(0xBDD8F2)); // Nova Bank blue selection
+        table.setSelectionForeground(new Color(0x002F6C));
         table.setDefaultEditor(Object.class, null); // read-only
     }
 
