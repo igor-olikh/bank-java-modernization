@@ -1,8 +1,8 @@
-# Task: Java 8 Banking System — Demo Implementation
+# Task: Java 8 Banking System — Implementation
 
 ## Overview
 
-Build a **demo banking system** implemented entirely in **Java 8**, simulating the core functionality of a real bank. The system serves as a foundation for future modernization to Java 21 (Liberty). This document defines the scope, architecture, entities, UI requirements, and sample data for the initial implementation.
+Build a **complete banking system** implemented entirely in **Java 8**, covering the core functionality of a real bank. The system serves as a foundation for future modernization to Java 21 (Liberty). This document defines the scope, architecture, entities, UI requirements, and sample data for the initial implementation.
 
 > **Scope boundary**: This task covers only the Java 8 implementation. Modernization (migration to Java 21 / Liberty) is a separate, subsequent task and must NOT be performed here.
 
@@ -13,7 +13,7 @@ Build a **demo banking system** implemented entirely in **Java 8**, simulating t
 1. Implement a complete, working banking system in Java 8.
 2. Cover all major banking entities: customers, accounts, transactions, cards, loans, branches.
 3. Provide a simple but authentic banking-style UI with **white-label placeholders** (bank name, logo, colors) — no real branding applied yet.
-4. Seed the system with realistic demo data including customers from diverse international backgrounds.
+4. Seed the system with realistic sample data including customers from diverse international backgrounds.
 5. Produce clean, well-commented Java 8 code that will later serve as the legacy baseline for modernization analysis.
 
 ---
@@ -25,7 +25,7 @@ Build a **demo banking system** implemented entirely in **Java 8**, simulating t
 | Java Version | **Java 8** (strictly — no Java 9+ APIs) |
 | Build Tool | Maven (`pom.xml`) |
 | UI | Simple console-based or Swing-based interface |
-| Persistence | In-memory (no database required for demo) |
+| Persistence | In-memory (no database required for this phase) |
 | Frameworks | No external frameworks — pure Java 8 |
 | Architecture | Layered: Model → Repository → Service → UI |
 
@@ -34,7 +34,7 @@ Build a **demo banking system** implemented entirely in **Java 8**, simulating t
 ## System Architecture
 
 ```
-bank-demo/
+bank-system/
 ├── src/
 │   └── main/
 │       └── java/
@@ -243,7 +243,7 @@ public class BankConfig {
 
 ---
 
-## Demo Data — Sample Customers
+## Sample Customers
 
 The system must be pre-loaded with at least **15 customers** representing diverse international backgrounds:
 
@@ -313,9 +313,9 @@ All of the above are subjects of future modernization tasks.
 |---|---|
 | `src/` | Full Java 8 source code |
 | `pom.xml` | Maven build file targeting Java 8 |
-| `README.md` | How to build and run the demo |
+| `README.md` | How to build and run the system |
 | `BankConfig.java` | White-label configuration class |
-| Demo data | 15+ pre-seeded customers with accounts, transactions, cards, and loans |
+| Sample data | 15+ pre-seeded customers with accounts, transactions, cards, and loans |
 
 ---
 
@@ -325,7 +325,7 @@ All of the above are subjects of future modernization tasks.
 - [ ] All service layer methods functional and covered with basic validation
 - [ ] Console UI navigable with menus for all major banking operations
 - [ ] `BankConfig.java` contains all white-label placeholders
-- [ ] 15+ diverse demo customers pre-loaded at startup
-- [ ] Each demo customer has accounts, transactions, at least one card
+- [ ] 15+ diverse sample customers pre-loaded at startup
+- [ ] Each customer has accounts, transactions, at least one card
 - [ ] Code compiles cleanly with `mvn clean compile` on Java 8
-- [ ] `README.md` describes how to run the demo
+- [ ] `README.md` describes how to build and run the system
