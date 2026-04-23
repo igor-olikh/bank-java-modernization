@@ -6,6 +6,7 @@ import com.bank.model.enums.CustomerType;
 import com.bank.service.CustomerService;
 import com.bank.ui.MainWindow;
 
+import com.bank.util.DateUtil;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -105,7 +106,7 @@ public class CustomersPanel extends JPanel {
                 c.getCustomerId().substring(0, 8) + "...",
                 c.getFullName(), c.getCustomerType(), c.getNationality(),
                 c.getEmail(), c.getPhone(), c.getStatus(),
-                c.getCreatedAt().toLocalDate()
+                DateUtil.formatDateOnly(c.getCreatedAt())
         });
     }
 
@@ -129,7 +130,7 @@ public class CustomersPanel extends JPanel {
                 "<b>Email:</b> " + c.getEmail() + "<br>" +
                 "<b>Phone:</b> " + c.getPhone() + "<br>" +
                 "<b>Address:</b> " + c.getAddress() + "<br>" +
-                "<b>Member since:</b> " + c.getCreatedAt().toLocalDate() + "</html>";
+                "<b>Member since:</b> " + DateUtil.formatDateOnly(c.getCreatedAt()) + "</html>";
         JOptionPane.showMessageDialog(this, info, "Customer Profile", JOptionPane.PLAIN_MESSAGE);
     }
 

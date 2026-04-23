@@ -5,6 +5,7 @@ import com.bank.model.enums.CustomerType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import com.bank.util.DateUtil;
 import java.util.UUID;
 
 /**
@@ -37,7 +38,7 @@ public class Customer {
         this.nationality = nationality;
         this.customerType = customerType;
         this.status = CustomerStatus.ACTIVE;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = DateUtil.now();
     }
 
     public String getCustomerId()       { return customerId; }

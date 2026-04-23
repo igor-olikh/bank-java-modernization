@@ -5,6 +5,7 @@ import com.bank.model.enums.AccountType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.bank.util.DateUtil;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -35,7 +36,7 @@ public class Account {
         this.balance = BigDecimal.ZERO;
         this.availableBalance = BigDecimal.ZERO;
         this.status = AccountStatus.ACTIVE;
-        this.openedAt = LocalDateTime.now();
+        this.openedAt = DateUtil.now();
         this.interestRate = accountType == AccountType.SAVINGS ? new BigDecimal("2.50") : BigDecimal.ZERO;
     }
 

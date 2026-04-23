@@ -7,6 +7,7 @@ import com.bank.service.AccountService;
 import com.bank.service.CustomerService;
 import com.bank.ui.MainWindow;
 
+import com.bank.util.DateUtil;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -96,7 +97,7 @@ public class AccountsPanel extends JPanel {
                 a.getAccountNumber(), a.getAccountType(), a.getCurrency(),
                 String.format("%,.2f", a.getBalance()),
                 String.format("%,.2f", a.getAvailableBalance()),
-                a.getInterestRate(), a.getStatus(), a.getOpenedAt().toLocalDate()
+                a.getInterestRate(), a.getStatus(), DateUtil.formatDateOnly(a.getOpenedAt())
         }));
         owner.setStatus("Accounts for " + c.getFullName() + ": " + model.getRowCount());
     }

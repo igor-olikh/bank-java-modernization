@@ -5,6 +5,7 @@ import com.bank.model.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.bank.util.DateUtil;
 import java.util.UUID;
 
 /**
@@ -34,7 +35,7 @@ public class Transaction {
         this.type = type;
         this.status = TransactionStatus.COMPLETED;
         this.description = description;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = DateUtil.now();
         this.referenceCode = "REF" + System.currentTimeMillis();
     }
 

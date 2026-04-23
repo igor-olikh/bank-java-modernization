@@ -7,6 +7,7 @@ import com.bank.service.CustomerService;
 import com.bank.service.TransactionService;
 import com.bank.ui.MainWindow;
 
+import com.bank.util.DateUtil;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -192,7 +193,7 @@ public class TransactionsPanel extends JPanel {
         updateInfoBar(fresh, balLabel, availLabel, currLabel);
 
         transactionService.getHistory(fresh.getAccountId()).forEach(t -> model.addRow(new Object[]{
-                t.getTimestamp().toString().substring(0, 19),
+                DateUtil.formatDateTime(t.getTimestamp()),
                 t.getType(),
                 String.format("%.2f", t.getAmount()),
                 t.getCurrency(),
