@@ -24,7 +24,7 @@ public class Account {
     private BigDecimal balance;
     private BigDecimal availableBalance;
     private AccountStatus status;
-    private final LocalDateTime openedAt;
+    private LocalDateTime openedAt;
     private BigDecimal interestRate;
 
     public Account(String customerId, AccountType accountType, String currency) {
@@ -57,6 +57,7 @@ public class Account {
     public void setAvailableBalance(BigDecimal b)   { this.availableBalance = b; }
     public void setStatus(AccountStatus status)     { this.status = status; }
     public void setInterestRate(BigDecimal rate)    { this.interestRate = rate; }
+    public void setOpenedAt(LocalDateTime dt)       { this.openedAt = dt; }
 
     public void credit(BigDecimal amount) {
         this.balance = this.balance.add(amount);
