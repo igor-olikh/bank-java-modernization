@@ -45,6 +45,9 @@ bank-system/
 │                   ├── service/        # Business logic
 │                   ├── ui/             # User interface (console or Swing)
 │                   ├── util/           # Helpers, formatters, generators
+│                   ├── exception/      # Custom exception classes
+│                   ├── init/           # Data seeding and bootstrap
+│                   │   └── SampleDataInitializer.java
 │                   └── BankApplication.java   # Entry point
 ├── pom.xml
 └── README.md
@@ -161,6 +164,19 @@ Physical bank branches.
 | `postalCode` | `String` |
 | `country` | `String` |
 
+### 8. AuditLog
+Tracks all significant actions in the system for compliance and traceability.
+
+| Field | Type | Description |
+|---|---|---|
+| `logId` | `String` | Unique identifier (UUID) |
+| `action` | `String` | Action performed (e.g., TRANSFER, BLOCK_CARD, OPEN_ACCOUNT) |
+| `performedBy` | `String` | User or system identifier |
+| `entityType` | `String` | Affected entity type (ACCOUNT, CARD, LOAN, CUSTOMER) |
+| `entityId` | `String` | Affected entity ID |
+| `details` | `String` | Free-text description of the action |
+| `timestamp` | `LocalDateTime` | When the action occurred |
+
 ---
 
 ## Business Logic (Service Layer)
@@ -186,6 +202,8 @@ Physical bank branches.
 - `getTransactionHistory(String accountId)` — paginated transaction history
 - `reverseTransaction(String transactionId)` — reverse a completed transaction
 
+> **Currency rule**: For this initial implementation, transfers are only allowed between accounts with the same currency. Cross-currency transfers are out of scope and will be addressed in the modernization phase.
+
 ### CardService
 - `issueCard(String accountId, CardType type, CardNetwork network)` — issue new card
 - `blockCard(String cardId)` — block a card immediately
@@ -197,6 +215,37 @@ Physical bank branches.
 - `approveLoan(String loanId)` — approve and disburse
 - `makeRepayment(String loanId, BigDecimal amount)` — record a repayment
 - `getLoanDetails(String loanId)` — retrieve loan summary
+
+### AuditService
+- `logAction(String action, String performedBy, String entityType, String entityId, String details)` — record an audit entry
+- `getAuditLog()` — retrieve all audit records
+- `getAuditLogByEntity(String entityType, String entityId)` — filter by entity
+
+---
+
+## Error Handling
+
+All service methods must validate inputs and throw meaningful exceptions. The following custom exceptions must be defined in the `com.bank.exception` package:
+
+| Exception | When Thrown |
+|---|---|
+| `InsufficientFundsException` | Withdrawal or transfer exceeds available balance |
+| `AccountNotFoundException` | Referenced account does not exist |
+| `CustomerNotFoundException` | Referenced customer does not exist |
+| `InvalidTransactionException` | Transaction violates business rules (e.g., frozen account, currency mismatch) |
+| `CardOperationException` | Invalid card operation (e.g., blocking an already blocked card) |
+| `LoanApplicationException` | Loan validation failure (e.g., negative amount, zero term) |
+
+**Rules**:
+- UI layer must catch all exceptions gracefully and display user-friendly messages
+- No unchecked exception should crash the application
+- All exception classes must extend a common `BankException` base class
+
+---
+
+## Thread Safety
+
+> All repository implementations must use `synchronized` methods or `ConcurrentHashMap` to prevent data corruption during concurrent access. This is intentionally implemented using Java 8 synchronization patterns, which will later serve as a modernization comparison point for Java 21 Virtual Threads.
 
 ---
 
@@ -245,7 +294,7 @@ public class BankConfig {
 
 ## Sample Customers
 
-The system must be pre-loaded with at least **15 customers** representing diverse international backgrounds:
+The system must be pre-loaded with at least **17 customers** representing diverse international backgrounds:
 
 | # | First Name | Last Name | Nationality | Account Type |
 |---|---|---|---|---|
@@ -264,6 +313,8 @@ The system must be pre-loaded with at least **15 customers** representing divers
 | 13 | Aiko | Nakamura | Japan | SAVINGS |
 | 14 | Samuel | Okonkwo | Nigeria | BUSINESS + CHECKING |
 | 15 | Sofia | Papadopoulos | Greece | CHECKING + AUTO LOAN |
+| 16 | Noam | Cohen | Israel | CHECKING + SAVINGS |
+| 17 | Mikhail | Levin | Israel (born Russia) | CHECKING + PERSONAL LOAN |
 
 Each customer must have:
 - At least one account with a realistic balance
@@ -315,7 +366,7 @@ All of the above are subjects of future modernization tasks.
 | `pom.xml` | Maven build file targeting Java 8 |
 | `README.md` | How to build and run the system |
 | `BankConfig.java` | White-label configuration class |
-| Sample data | 15+ pre-seeded customers with accounts, transactions, cards, and loans |
+| Sample data | 17 pre-seeded customers with accounts, transactions, cards, and loans |
 
 ---
 
@@ -325,7 +376,10 @@ All of the above are subjects of future modernization tasks.
 - [ ] All service layer methods functional and covered with basic validation
 - [ ] Console UI navigable with menus for all major banking operations
 - [ ] `BankConfig.java` contains all white-label placeholders
-- [ ] 15+ diverse sample customers pre-loaded at startup
+- [ ] 17 sample customers pre-loaded at startup
 - [ ] Each customer has accounts, transactions, at least one card
+- [ ] Customers #7, #12, #15, #17 have pre-seeded loans as specified in the sample data table
+- [ ] Custom exception hierarchy implemented under `com.bank.exception`
+- [ ] Audit logging functional for key operations
 - [ ] Code compiles cleanly with `mvn clean compile` on Java 8
 - [ ] `README.md` describes how to build and run the system
