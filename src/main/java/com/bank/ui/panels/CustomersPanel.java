@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -84,6 +86,13 @@ public class CustomersPanel extends JPanel {
         viewBtn.addActionListener(e -> viewSelected());
         blockBtn.addActionListener(e -> blockSelected());
         activeBtn.addActionListener(e -> activateSelected());
+
+        // Double-click on a row → open the same View Details dialog
+        table.addMouseListener(new MouseAdapter() {
+            @Override public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && table.getSelectedRow() >= 0) viewSelected();
+            }
+        });
 
         loadAll();
     }
