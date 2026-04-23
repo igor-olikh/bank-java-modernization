@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Seeds the system with 17 pre-defined customers, their accounts,
+ * Seeds the system with 18 pre-defined customers, their accounts,
  * transaction history, cards, loans, and bank branches.
  */
 public class DataSeeder {
@@ -233,6 +233,17 @@ public class DataSeeder {
         cardService.issueCard(mikhailCheck.getAccountId(), mikhail.getCustomerId(), CardType.DEBIT, CardNetwork.VISA);
         loanService.applyForLoan(mikhail.getCustomerId(), mikhailCheck.getAccountId(),
                 LoanType.PERSONAL, new BigDecimal("80000.00"), new BigDecimal("8.00"), 36);
+
+        // 18. Igor Proverkin — Israel
+        Customer igor = reg("Igor", "Proverkin", "1975-09-24",
+                "igor.proverkin@bank.com", "+972-54-444-4444",
+                new Address("HaShita 15", "Tel Aviv", "", "7193065", "Israel"),
+                "Israeli", CustomerType.INDIVIDUAL);
+        Account igorCheck = openAcc(igor, AccountType.CHECKING, "ILS", "55000.00");
+        Account igorSave  = openAcc(igor, AccountType.SAVINGS,  "ILS", "180000.00");
+        seedTx(igorCheck, "35000.00", "4500.00", "1800.00", "1000.00", "350.00");
+        cardService.issueCard(igorCheck.getAccountId(), igor.getCustomerId(), CardType.DEBIT,  CardNetwork.VISA);
+        cardService.issueCard(igorSave.getAccountId(),  igor.getCustomerId(), CardType.CREDIT, CardNetwork.MASTERCARD);
     }
 
     // -------------------------------------------------------------------------
