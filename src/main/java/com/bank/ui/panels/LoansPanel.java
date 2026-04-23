@@ -82,13 +82,15 @@ public class LoansPanel extends JPanel {
     private void populateCustomerCombo() {
         customerList = customerService.getAllCustomers();
         customerCombo.removeAllItems();
+        customerCombo.addItem("— Select customer —");
         customerList.forEach(c -> customerCombo.addItem(c.getFullName() + " [" + c.getCustomerId().substring(0, 8) + "]"));
+        customerCombo.setSelectedIndex(0);
     }
 
     private void loadLoans() {
         int idx = customerCombo.getSelectedIndex();
-        if (idx < 0) return;
-        Customer c = customerList.get(idx);
+        if (idx <= 0 || customerList == null) { model.setRowCount(0); loanList = null; return; }
+        Customer c = customerList.get(idx - 1);
         loanList = loanService.getLoansByCustomer(c.getCustomerId());
         model.setRowCount(0);
         loanList.forEach(l -> model.addRow(new Object[]{
@@ -104,8 +106,8 @@ public class LoansPanel extends JPanel {
 
     private void applyLoan() {
         int idx = customerCombo.getSelectedIndex();
-        if (idx < 0) { MainWindow.showError(this, "Select a customer first."); return; }
-        Customer c = customerList.get(idx);
+        if (idx <= 0) { MainWindow.showError(this, "Select a customer first."); return; }
+        Customer c = customerList.get(idx - 1);
         List<Account> accounts = accountService.getAccountsByCustomer(c.getCustomerId());
         if (accounts.isEmpty()) { MainWindow.showError(this, "Customer has no accounts. Open an account first."); return; }
 
@@ -152,7 +154,7 @@ public class LoansPanel extends JPanel {
         }
         Loan loan = loanList.get(row);
         int idx = customerCombo.getSelectedIndex();
-        Customer c = customerList.get(idx);
+        Customer c = customerList.get(idx - 1);
         List<Account> accounts = accountService.getAccountsByCustomer(c.getCustomerId());
         if (accounts.isEmpty()) { MainWindow.showError(this, "No accounts to debit."); return; }
 

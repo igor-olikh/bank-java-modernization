@@ -158,15 +158,17 @@ public class TransactionsPanel extends JPanel {
     private void populateCustomerCombo() {
         customerList = customerService.getAllCustomers();
         customerCombo.removeAllItems();
+        customerCombo.addItem("— Select customer —");
         customerList.forEach(c -> customerCombo.addItem(c.getFullName() + " [" + c.getCustomerId().substring(0, 8) + "]"));
+        customerCombo.setSelectedIndex(0);
     }
 
     private void loadAccountsForCustomer() {
         int idx = customerCombo.getSelectedIndex();
         accountCombo.removeAllItems();
         accountList = null;
-        if (idx < 0 || customerList == null) return;
-        Customer c = customerList.get(idx);
+        if (idx <= 0 || customerList == null) return;
+        Customer c = customerList.get(idx - 1);
         accountList = accountService.getAccountsByCustomer(c.getCustomerId());
         accountList.forEach(a -> accountCombo.addItem(
                 a.getAccountNumber() + " (" + a.getAccountType() + " · " + a.getCurrency() + ")"));

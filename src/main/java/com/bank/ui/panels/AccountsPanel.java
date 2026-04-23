@@ -85,13 +85,15 @@ public class AccountsPanel extends JPanel {
     private void populateCustomerCombo() {
         customerList = customerService.getAllCustomers();
         customerCombo.removeAllItems();
+        customerCombo.addItem("— Select customer —");
         customerList.forEach(c -> customerCombo.addItem(c.getFullName() + " [" + c.getCustomerId().substring(0, 8) + "]"));
+        customerCombo.setSelectedIndex(0); // stays on placeholder, no data load
     }
 
     private void loadAccounts() {
         int idx = customerCombo.getSelectedIndex();
-        if (idx < 0 || customerList == null) return;
-        Customer c = customerList.get(idx);
+        if (idx <= 0 || customerList == null) { model.setRowCount(0); return; }
+        Customer c = customerList.get(idx - 1); // offset: item 0 is placeholder
         model.setRowCount(0);
         accountService.getAccountsByCustomer(c.getCustomerId()).forEach(a -> model.addRow(new Object[]{
                 a.getAccountNumber(), a.getAccountType(), a.getCurrency(),
@@ -104,8 +106,8 @@ public class AccountsPanel extends JPanel {
 
     private void openAccount() {
         int idx = customerCombo.getSelectedIndex();
-        if (idx < 0) { MainWindow.showError(this, "Select a customer first."); return; }
-        Customer c = customerList.get(idx);
+        if (idx <= 0) { MainWindow.showError(this, "Select a customer first."); return; }
+        Customer c = customerList.get(idx - 1);
         JComboBox<String> typeBox = new JComboBox<>(new String[]{"CHECKING", "SAVINGS", "BUSINESS", "INVESTMENT"});
         JTextField currencyField = new JTextField("USD", 8);
         Object[][] rows = {{"Account type:", typeBox}, {"Currency (e.g. USD, EUR):", currencyField}};

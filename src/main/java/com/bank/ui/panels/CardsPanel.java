@@ -87,13 +87,15 @@ public class CardsPanel extends JPanel {
     private void populateCustomerCombo() {
         customerList = customerService.getAllCustomers();
         customerCombo.removeAllItems();
+        customerCombo.addItem("— Select customer —");
         customerList.forEach(c -> customerCombo.addItem(c.getFullName() + " [" + c.getCustomerId().substring(0, 8) + "]"));
+        customerCombo.setSelectedIndex(0);
     }
 
     private void loadCards() {
         int idx = customerCombo.getSelectedIndex();
-        if (idx < 0) return;
-        Customer c = customerList.get(idx);
+        if (idx <= 0 || customerList == null) { model.setRowCount(0); cardList = null; return; }
+        Customer c = customerList.get(idx - 1);
         cardList = cardService.getCardsByCustomer(c.getCustomerId());
         model.setRowCount(0);
         cardList.forEach(card -> {
@@ -112,8 +114,8 @@ public class CardsPanel extends JPanel {
 
     private void issueCard() {
         int idx = customerCombo.getSelectedIndex();
-        if (idx < 0) { MainWindow.showError(this, "Select a customer first."); return; }
-        Customer c = customerList.get(idx);
+        if (idx <= 0) { MainWindow.showError(this, "Select a customer first."); return; }
+        Customer c = customerList.get(idx - 1);
         List<Account> accounts = accountService.getAccountsByCustomer(c.getCustomerId());
         if (accounts.isEmpty()) { MainWindow.showError(this, "Customer has no accounts. Open an account first."); return; }
 
