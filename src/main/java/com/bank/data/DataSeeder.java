@@ -55,9 +55,9 @@ public class DataSeeder {
                 new Address("88 Market Street", "Singapore", "", "048948", "Singapore"),
                 "+65-6555-0300", "David Tan", "Mon-Fri 09:00-18:00");
 
-        branchService.addBranch("ME001", "Middle East Office",
-                new Address("King Fahd Road, Tower A", "Riyadh", "", "11564", "Saudi Arabia"),
-                "+966-11-555-0400", "Omar Al-Farsi", "Sun-Thu 08:00-16:00");
+        branchService.addBranch("IL001", "Tel Aviv Branch",
+                new Address("Rothschild Boulevard 45", "Tel Aviv", "", "6578401", "Israel"),
+                "+972-3-555-0400", "Yael Shapiro", "Sun-Thu 08:30-16:30");
     }
 
     // -------------------------------------------------------------------------
