@@ -401,11 +401,11 @@ Combine this with **records** (Section 2) and parsing the response is just a few
 
 ## Recommended Order for the Demo
 
-For a 15-minute client demo, we suggest:
+For a client demo we suggest:
 
-1. **Records** (3 min) — easy to understand, instant visual impact ("60 lines → 1 line").
-2. **Virtual Threads** (5 min) — strongest business argument, can be shown with a load test.
-3. **Sealed + Pattern Matching** (4 min) — quality and safety message; show how the compiler refuses to build when a case is missing.
-4. **Text Blocks + HttpClient** (3 min) — quick "and there is more" wrap-up.
+1. **Records** — easy to understand, instant visual impact ("60 lines → 1 line").
+2. **Virtual Threads** — strongest business argument, can be shown with a load test.
+3. **Sealed + Pattern Matching** — quality and safety message; show how the compiler refuses to build when a case is missing.
+4. **Text Blocks + HttpClient** — quick "and there is more" wrap-up.
 
 This order goes from **easy to grasp** → **impressive performance** → **better quality** → **everyday convenience**, which leaves the client with a positive overall impression.
