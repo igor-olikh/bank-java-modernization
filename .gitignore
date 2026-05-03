@@ -7,6 +7,12 @@
 # Maven
 target/
 *.class
+.mvn/
+mvnw
+mvnw.cmd
+
+# VS Code
+.vscode/
 
 # Gradle
 .gradle/
