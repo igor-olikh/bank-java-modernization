@@ -383,6 +383,8 @@ The following are explicitly **excluded** from this implementation:
 
 All of the above are subjects of future modernization tasks.
 
+> **Update (modernization phase):** Some of the items above are now actively being designed as part of the Java 21 modernization workshop — in particular **Regulatory/compliance reporting (AML)** and **Migration to Java 21**. See `docs/guide_bob_workshop-java-ru.md`. The original Java 8 baseline (this document) does not include them, but they are no longer "future" — they are happening in the current modernization track.
+
 ---
 
 ## Deliverables

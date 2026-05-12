@@ -54,6 +54,8 @@ IBM Bob работает в двух режимах:
 
 ## Часть вторая: практическая работа
 
+> **Важно:** этапы 1–7 проходим **в одном общем чате** IBM Bob. Не открывайте новый чат между этими этапами — IBM Bob помнит контекст в рамках одной беседы, и многие промпты этапов 4–7 опираются на то, что было обсуждено ранее. Новый чат явно открывается только начиная с этапа 8 (там в самом этапе сказано «Откройте новый чат»).
+
 ## Этап 1 — Подготовительный: загрузка проекта
 
 ### Цель
@@ -163,7 +165,7 @@ IBM Bob предоставит подробный анализ операции 
 
 **Вставьте в IBM Bob:**
 
-> What needs to change in order to report into an external file or external table every money transfer between accounts in an amount above 9,000 NIS? All relevant details of the operation must be reported (such as date, time, amount, source, destination, etc.).
+> Without modifying any files: what would need to change in order to report into an external file or external table every money transfer between accounts in an amount above 9,000 NIS? All relevant details of the operation must be reported (such as date, time, amount, source, destination, etc.). Just describe the recommended changes — do not edit or create any files.
 
 ### Что вы должны получить
 
@@ -191,7 +193,7 @@ IBM Bob предоставит:
 
 **Вставьте в IBM Bob:**
 
-> Explain why the change is needed in method `TransactionService.transfer()` and not in `TransactionService.deposit()` or `TransactionService.withdraw()`.
+> Without modifying any files: explain why the change is needed in method `TransactionService.transfer()` and not in `TransactionService.deposit()` or `TransactionService.withdraw()`.
 
 ### Что вы должны получить
 
@@ -215,7 +217,7 @@ IBM Bob покажет **сигнатуры методов** и их **тела*
 
 **Вставьте в IBM Bob:**
 
-> What is the preferred storage for AML reports — a relational database (JDBC/JPA), a NoSQL store (MongoDB), a structured file (CSV/JSON), or a message queue (Kafka)?
+> Without modifying any files: what is the preferred storage for AML reports — a relational database (JDBC/JPA), a NoSQL store (MongoDB), a structured file (CSV/JSON), or a message queue (Kafka)?
 
 ### Что вы должны получить
 
@@ -400,7 +402,7 @@ IBM Bob запросит переход в CODE, покажет diff'ы, и по
 
 **Вставьте в IBM Bob:**
 
-> What is the role of the class `BankConfig` and who uses it across the entire codebase?
+> Without modifying any files: what is the role of the class `BankConfig` and who uses it across the entire codebase?
 
 ### Что вы должны получить
 
@@ -490,13 +492,13 @@ IBM Bob владеет всем стеком вокруг Java-приложен�
 
 ### Вопрос 10а — Проверки перед открытием счёта
 
-> Which conditions are checked before opening an account, and where is this expressed in the code?
+> Without modifying any files: which conditions are checked before opening an account, and where is this expressed in the code?
 
 **Что это демонстрирует:** IBM Bob умеет извлекать бизнес-правила из кода.
 
 ### Вопрос 10б — Изменение номера счёта
 
-> What is the implication of changing the account number from 8 digits to 10 digits, and what needs to be changed?
+> Without modifying any files: what is the implication of changing the account number from 8 digits to 10 digits, and what needs to be changed?
 
 **Что это демонстрирует:** IBM Bob умеет отслеживать изменение структуры данных по всему коду.
 
@@ -508,7 +510,7 @@ IBM Bob владеет всем стеком вокруг Java-приложен�
 
 ### Вопрос 10г — Описание бизнес-потока
 
-> Describe the business steps of 'money transfer' in the system, including business rules and controls. Provide a link to the code lines.
+> Without modifying any files: describe the business steps of 'money transfer' in the system, including business rules and controls. Provide a link to the code lines.
 
 **Что это демонстрирует:** IBM Bob может перевести код в чёткое бизнес-описание для руководителей.
 
@@ -522,7 +524,7 @@ IBM Bob владеет всем стеком вокруг Java-приложен�
 
 ### Вопрос 10е — Продвинутый вызов: аутентификация T-PIN
 
-> Below is a new business requirement: add an additional identity verification before performing a money transfer in `TransactionService.transfer()`. The verification before the transfer is by a random one-time 6-digit code, the **Transaction PIN (T-PIN)**, which will be shown on the screen and the user is required to enter it. Where does the change need to be made, suggest how to implement the change, and present a proposed code change using Java 21 idioms (e.g. a `record` for the T-PIN challenge).
+> Without modifying any files: below is a new business requirement: add an additional identity verification before performing a money transfer in `TransactionService.transfer()`. The verification before the transfer is by a random one-time 6-digit code, the **Transaction PIN (T-PIN)**, which will be shown on the screen and the user is required to enter it. Where does the change need to be made, suggest how to implement the change, and present a proposed code change using Java 21 idioms (e.g. a `record` for the T-PIN challenge). Describe only — do not edit or create any files.
 
 **Что это демонстрирует:** полное сложное бизнес-требование — от анализа через предложение реализации до кода.
 
