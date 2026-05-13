@@ -39,6 +39,8 @@
 - **Chat** — чат с IBM Bob
 - **Terminal** — командная строка
 
+> **📷 TODO screenshot:** общий вид IBM Bob IDE с подписанными окнами (Explorer слева, Editor в центре, Chat справа, Terminal внизу).
+
 **Режимы:**
 
 IBM Bob работает в двух режимах:
@@ -49,6 +51,8 @@ IBM Bob работает в двух режимах:
 | **CODE** | Меняет файлы, реально выполняет команды | Этап 6 и далее |
 
 Режим отображается в нижнем углу IDE. Важно проверять его перед каждым этапом.
+
+> **📷 TODO screenshot:** индикатор активного режима (PLAN/ASK или CODE) в нижнем углу окна чата.
 
 ---
 
@@ -80,6 +84,8 @@ IBM Bob работает в двух режимах:
 2. Выберите созданную папку `bank-java-modernization`
 3. Подтвердите открытие
 
+> **📷 TODO screenshot:** диалог **File → Open Folder** с выбранной папкой `bank-java-modernization`, или Explorer после успешного открытия проекта.
+
 ### Ожидаемые результаты
 
 - Локальная копия проекта на вашей машине
@@ -110,6 +116,8 @@ IBM Bob работает в двух режимах:
 
 > Analyze the project.
 
+> **Если IBM Bob задаст уточняющий вопрос** (например, «На каких аспектах сосредоточиться?») с предложенными вариантами — выберите наиболее общий вариант («All aspects», «General overview»), либо напишите своими словами: `All aspects — give me a comprehensive overview`. Это применимо и к другим этапам — IBM Bob периодически задаёт уточняющие вопросы перед ответом.
+
 IBM Bob подготовит документ с анализом и объяснением приложения.
 
 **Затем углубитесь следующим промптом:**
@@ -129,6 +137,8 @@ IBM Bob подготовит документ с анализом и объяс�
 > > Save the analysis to a file `ANALYSIS.md`.
 
 ### Откройте созданный файл — нажмите на иконку **open preview**.
+
+> **📷 TODO screenshot:** иконка **open preview** в верхней панели редактора (стрелка/глазик на верхнем-правом).
 
 ### Этап 2.2 — Анализ конкретной операции (денежный перевод между счетами)
 
@@ -249,17 +259,31 @@ IBM Bob покажет **сигнатуры методов** и их **тела*
 
 После активации IBM Bob готов к модернизации. Длинные промпты больше не нужны — режим уже знает, что делать.
 
-### Этап 6.2 — Запуск модернизации
+### Этап 6.2 — Запуск модернизации (две фазы)
 
-Просто вставьте:
+IBM Bob естественно разбивает модернизацию на **планирование** и **выполнение**. Сначала он покажет план и попросит явного «можно начинать» — это ваш дополнительный контроль перед массовыми изменениями.
+
+#### Этап 6.2 (a) — Запрос плана
+
+Вставьте:
 
 > Modernize this project from Java 8 to Java 21.
 
-IBM Bob автоматически:
+IBM Bob:
 
-- Проанализирует всю кодовую базу
-- Составит план модернизации с привязкой «файл → фича Java 21»
-- Начнёт применять изменения, шаг за шагом
+- Проанализирует кодовую базу
+- Создаст файл с планом миграции (обычно `JAVA_21_MIGRATION_PLAN.md`)
+- Возможно сразу обновит `pom.xml` (source/target → 21)
+- **Остановится** и покажет план: что менять, какие фичи Java 21 применять
+- Будет ждать вашего решения «применять или нет»
+
+#### Этап 6.2 (b) — Запуск выполнения
+
+Когда увидите план и захотите применить, вставьте:
+
+> Now execute the migration plan you produced. Apply all phases: convert models to Records, make BankException sealed, apply Virtual Threads, Pattern Matching, Text Blocks, and modernize repositories. Show me each diff before applying, and ask for approval on every file change.
+
+IBM Bob начнёт **применять изменения**, шаг за шагом, прося подтверждение на каждое.
 
 ### Этап 6.3 — Подтверждения (ваша главная роль)
 
@@ -276,12 +300,21 @@ IBM Bob будет периодически останавливаться и п
 >
 > > Always show me the exact diff before applying any change.
 
+> **IBM Bob может предлагать выбор с trade-offs.** На некоторых файлах (например, на `Transaction.java`, у которого есть mutable поле `status`) IBM Bob увидит несколько разумных путей и предложит выбор — например:
+>
+> - **Option A:** оставить классом, обновить только синтаксис (var, switch) — безопаснее, без breaking changes
+> - **Option B:** конвертировать в record + добавить immutable wrapper — больше Java 21 идиом, но требует правок в зависимых местах
+>
+> IBM Bob обычно даёт собственную рекомендацию (часто «безопасный» вариант). Выбирайте тот, который вам подходит — оба варианта валидны. Если хотите максимально показать Java 21 фичи — берите более «продвинутый» вариант (record / sealed / pattern matching). Если хотите минимальный риск — берите рекомендованный.
+
 ### Этап 6.4 — Сравнение до/после
 
 После каждого блока изменений сравните оригинал с модернизированной версией:
 
 - В окне **Explorer** правой кнопкой на новой версии файла → **Select for Compare**
 - Затем правой кнопкой на оригинале → **Compare with Selected**
+
+> **📷 TODO screenshot:** контекстное меню Explorer с пунктами **Select for Compare** / **Compare with Selected**, или открытый diff-вид со старой и новой версиями файла бок о бок.
 
 Самый яркий момент — `Transaction.java`: ~60 строк boilerplate превращаются в одну строку Record.
 
@@ -400,6 +433,8 @@ IBM Bob запросит переход в CODE, покажет diff'ы, и по
 
 **Откройте новый чат (`+`).**
 
+> **📷 TODO screenshot:** кнопка «+» (новый чат) в верхней части окна чата IBM Bob.
+
 **Вставьте в IBM Bob:**
 
 > Without modifying any files: what is the role of the class `BankConfig` and who uses it across the entire codebase?
@@ -443,6 +478,8 @@ IBM Bob иногда говорит вещи, которые он не дока�
 
 > Вернитесь в режим **PLAN**.
 
+> **📷 TODO screenshot:** выпадающее меню выбора режимов IBM Bob с выделенным `plan` (или индикатор в нижнем углу со значением «plan»).
+
 ### Этап 9.1 — Контейнеризация (Docker)
 
 **Вставьте в IBM Bob:**
@@ -459,7 +496,7 @@ IBM Bob иногда говорит вещи, которые он не дока�
 
 **Вставьте в IBM Bob:**
 
-> Create a GitHub Actions workflow at `.github/workflows/build.yml` that builds the project with JDK 21 and runs the tests on every push.
+> Just create the `.github/workflows/build.yml` file locally on disk that builds the project with JDK 21 and runs the tests on every push. Do NOT push to GitHub or interact with any GitHub authentication. Just create the file content locally.
 
 **Что вы должны получить:**
 
@@ -504,7 +541,7 @@ IBM Bob владеет всем стеком вокруг Java-приложен�
 
 ### Вопрос 10в — Написание JUnit-теста
 
-> Write a JUnit 5 test class for the 'open account' process in `AccountService.openAccount()`. Include both positive and negative test cases.
+> Write a JUnit 5 test class for the 'open account' process in `AccountService.openAccount()`. Include both positive and negative test cases. **Important:** first inspect the current code (`Account`, `Customer`, `Address`) to use the correct constructor signatures — the project was recently modernized to Java 21, so models like `Address` may now be Records with different field counts. Make sure your test code is consistent with the current state of the project, then compile and run `mvn test` to verify.
 
 **Что это демонстрирует:** IBM Bob не только анализирует — он также пишет современный Java-код тестов.
 

@@ -88,6 +88,26 @@ Bob трактует «what needs to change» как императив «изм
 
 ---
 
+### Issue #5 — Bob после большой миграции не помнит свои же изменения
+
+**Проблема (обнаружено во втором прогоне, этап 10в).** После того как этап 6 (`/java-modernization`) превратил `Address` в record с 5 полями, на этапе 10в Bob создал JUnit-тест, в котором вызывал `new Address(...)` с **6 аргументами** (старый класс-style). Build падает:
+
+```
+constructor Address in record cannot be applied to given types;
+required: String, String, String, String, String         (record — 5 fields)
+found:    String, String, String, String, String, String (Bob's old assumption)
+```
+
+Это происходит потому, что Bob не перечитывает изменённые файлы между этапами и опирается на «память» о структуре кода из ранних промптов.
+
+**Фикс (внесён в гайд, этап 10в).** Промпт теперь явно просит Bob сначала проинспектировать текущий код:
+
+> «**Important:** first inspect the current code (`Account`, `Customer`, `Address`) to use the correct constructor signatures — the project was recently modernized to Java 21, so models like `Address` may now be Records with different field counts. Make sure your test code is consistent with the current state of the project, then compile and run `mvn test` to verify.»
+
+С этой добавкой Bob делает Read файла перед написанием теста, видит record, использует правильный конструктор. Бонус: «then run mvn test to verify» заставляет Bob самого убедиться, что код собирается и проходит.
+
+---
+
 ### Issue #4 — Bob CLI теряет аутентификацию после ~30+ мин
 
 **Проблема.** Через ~50 минут активного использования Bob отвалился: `BFF authentication failed: Authentication timeout (3 minutes)`. Заблокировал этапы 10c–10f до повторной аутентификации.
