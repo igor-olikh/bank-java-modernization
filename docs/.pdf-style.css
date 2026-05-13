@@ -72,3 +72,22 @@ hr {
 ul, ol { padding-left: 1.5em; }
 [dir="rtl"] ul, [dir="rtl"] ol { padding-right: 1.5em; padding-left: 0; }
 [dir="rtl"] th, [dir="rtl"] td { text-align: right; }
+img {
+  max-width: 100%;
+  max-height: 14cm;
+  display: block;
+  margin: 0.8em auto;
+  page-break-inside: avoid;
+}
+figure {
+  page-break-inside: avoid;
+  margin: 1em 0;
+  text-align: center;
+}
+figcaption {
+  font-style: italic;
+  font-size: 9pt;
+  color: #666;
+  margin-top: 0.4em;
+  text-align: center;
+}
