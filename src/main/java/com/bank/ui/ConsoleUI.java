@@ -90,6 +90,8 @@ public class ConsoleUI {
         if (text == null) return "";
         int padding = (width - text.length()) / 2;
         if (padding <= 0) return text;
-        return " ".repeat(padding) + text;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < padding; i++) sb.append(' ');
+        return sb.append(text).toString();
     }
 }
