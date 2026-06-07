@@ -1,0 +1,6 @@
+{
+  "name": "java-version-compliance",
+  "version": "1.0.0",
+  "description": "Verify that a Java project's declared target Java version is actually enforced by the build (Maven/Gradle) and matches the APIs and bytecode used in source. Catches the source/target vs --release trap where code compiles on a newer JDK but uses APIs absent in the declared target.",
+  "contextFileName": "SKILL.md"
+}
