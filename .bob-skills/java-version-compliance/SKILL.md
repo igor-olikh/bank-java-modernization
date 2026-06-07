@@ -21,6 +21,19 @@ Authoritative procedure to confirm that a Java project's declared target version
 
 > **Scope:** Java projects only — Maven (`pom.xml`) or Gradle (`build.gradle` / `build.gradle.kts`). Skip if no Java build descriptor is present.
 
+## ⚠ READ-ONLY AUDIT — NO MODIFICATIONS
+
+**This skill performs verification only. It must never modify the project.** Specifically:
+
+- ❌ Do NOT edit `pom.xml`, `build.gradle`, `build.gradle.kts`, or any source files.
+- ❌ Do NOT add `<maven.compiler.release>` to the POM to run the strict-recompile step — use the `-Dmaven.compiler.release=N` command-line override instead, which leaves the POM untouched.
+- ❌ Do NOT rewrite, refactor, or "fix" any `.java` file (including offending APIs like `String.repeat(...)`).
+- ❌ Do NOT run `mvn install`, `mvn deploy`, or any goal that publishes artifacts.
+- ✅ Build a report with diagnostic findings and recommended fixes as **text only**.
+- ✅ All actual changes are the user's decision. If they want a fix applied, they will switch to a regular edit mode and request it explicitly.
+
+Allowed side effects (read-only from the project's point of view): producing `target/` or `build/` build outputs locally, creating temporary report files in `/tmp/`, querying remote registries (Maven Central, etc.).
+
 ---
 
 ## 1. The trap this skill exists to catch
@@ -88,21 +101,21 @@ Identify the **major version** of the running JDK (e.g. 21).
 
 If verdict is ⚠ TRAP — flag it loudly. This is the central case this skill catches.
 
-### Step 5 — Empirically verify by recompiling under `--release`
+### Step 5 — Empirically verify by recompiling under `--release` (read-only)
 
-Best evidence beats opinions. Force a clean build with strict API enforcement:
+Best evidence beats opinions. Force a clean build with strict API enforcement **without modifying any project file**:
 
 **Maven:**
 ```bash
 mvn -B clean compile -Dmaven.compiler.release=<N>
 ```
-or temporarily edit `pom.xml` to add `<maven.compiler.release>N</maven.compiler.release>` and run `mvn -B clean compile`.
+The `-D` override applies only to this invocation — `pom.xml` is untouched. Do not edit the POM as a shortcut.
 
 **Gradle:**
 ```bash
 ./gradlew clean compileJava -Dorg.gradle.java.home=$JAVA_HOME --warning-mode all
 ```
-or add `options.release.set(N)` to `tasks.withType(JavaCompile)` and rebuild.
+If Gradle does not expose a comparable command-line override for `options.release`, report this limitation in the audit instead of editing the build script.
 
 If new errors appear that were not there with `source/target` alone, **those are real Java-N compliance violations** — list them.
 
@@ -142,7 +155,9 @@ Flag dependencies that declare `Multi-Release: true` or require a newer `Bundle-
 
 ## 3. Report format — what to give the user
 
-Always produce a structured, scannable report. Example:
+Always produce a structured, scannable report. **The report is the only deliverable** — the "Recommended fixes" section is text describing what the user could do, not an action plan to execute. Do not apply any of the suggested fixes in this mode; if the user wants them applied, they will say so and the work will happen in a regular edit-capable mode.
+
+Example:
 
 ```
 Java Version Compliance Report — <project>
@@ -186,11 +201,11 @@ Recommended fixes:
 
 ## 4. When to STOP and ask the user
 
-Per AGENTS.md — do not assume. Ask the user before acting if:
+Per AGENTS.md — do not assume. Stop and ask the user before continuing if:
 
-- The project declares **no** Java version anywhere. (Default is JDK-dependent — ask: "What Java version should this project target?")
-- The declared target differs from the active JDK and you cannot tell the intent (modernize ↔ stay on legacy). Ask: "Do you want to (a) modernize the project to the active JDK, or (b) constrain the build to the original target version?"
-- The user asks for a fix but multiple offending APIs exist with different reasonable rewrites — present options before refactoring widely.
+- The project declares **no** Java version anywhere. The audit cannot proceed without knowing the intended target. Ask: "What Java version should this project target?"
+- The declared target differs from the active JDK and you cannot tell the intent (modernize ↔ stay on legacy). Ask: "Do you want me to audit (a) compliance with the declared target, or (b) compliance with the active JDK?"
+- The user asks for fixes to be applied. This skill is audit-only. Reply: "This mode is read-only by design — switch to `/code` (or another edit-capable mode) and ask there, and I'll apply the fixes."
 
 ---
 
